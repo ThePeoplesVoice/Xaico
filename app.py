@@ -30,6 +30,42 @@ if not dark_mode:
       .title-glow { background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899) !important; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
     """, unsafe_allow_html=True)
+    # Real save/load
+SAVE_KEY = "psycho_save_data"
+
+def save_game():
+    data = {
+        "player": st.session_state.player,
+        "planetary_total": st.session_state.planetary_total,
+        "revenue": st.session_state.revenue,
+        "cognition": st.session_state.cognition,
+        "orbital_swarms": st.session_state.orbital_swarms,
+        "hypernova": st.session_state.hypernova,
+        "omniverse": st.session_state.omniverse,
+        "insight_flux": st.session_state.insight_flux,
+        "colossus_clusters": st.session_state.colossus_clusters,
+        "prestige_multiplier": st.session_state.prestige_multiplier,
+        "sigils_unlocked": st.session_state.sigils_unlocked,
+        "arena_streak": st.session_state.arena_streak,
+    }
+    import json, base64
+    st.session_state = base64.b64encode(json.dumps(data).encode()).decode()
+    st.success("Empire saved! Copy the code below.")
+
+if st.sidebar.button("💾 Save Empire"):
+    save_game()
+    st.sidebar.text_area("Copy this (long string):", value=st.session_state.get(SAVE_KEY, ""), height=100)
+
+load_code = st.sidebar.text_area("Paste save code to load:", height=100)
+if load_code and st.sidebar.button("🔄 Load Empire"):
+    try:
+        data = json.loads(base64.b64decode(load_code).decode())
+        for k, v in data.items():
+            st.session_state = v
+        st.success("Empire restored! Rerun to see.")
+        st.rerun()
+    except:
+        st.error("Bad code—try again.")
 # ── Persistence (robust export/import) ───────────────────────────────────────
 SAVE_KEY = "datatycoon_v8_save"
 
