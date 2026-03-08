@@ -20,7 +20,16 @@ h1,h2,h3,.stMetric label{font-family:'Orbitron',sans-serif;letter-spacing:0.05em
 @keyframes shimmer{to{background-position:200% center;}}
 .sigil-badge,.arena-result{padding:10px 16px;border-radius:10px;margin:6px 0;font-size:13px;}
 </style>""", unsafe_allow_html=True)
-
+# Dark mode toggle in sidebar
+dark_mode = st.sidebar.checkbox("🌑 Dark Mode", value=True)
+if not dark_mode:
+    st.markdown("""
+    <style>
+      html, body, { background-color: #f0f2f6 !important; color: #000 !important; }
+      .stMetric { background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%) !important; border: 1px solid #ccc !important; }
+      .title-glow { background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899) !important; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+    """, unsafe_allow_html=True)
 # ── Persistence (robust export/import) ───────────────────────────────────────
 SAVE_KEY = "datatycoon_v8_save"
 
